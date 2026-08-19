@@ -1,0 +1,42 @@
+[
+  {
+    "id": "INV-5001",
+    "name": "Whole Milk (Gallon)",
+    "category": "Dairy",
+    "quantity": 120,
+    "unit": "gallons",
+    "status": "In Stock",
+    "lastRestocked": "2026-08-15",
+    "supplierName": "Valley Farms Dairy"
+  },
+  {
+    "id": "INV-5002",
+    "name": "Heavy Cream",
+    "category": "Dairy",
+    "quantity": 15,
+    "unit": "liters",
+    "status": "Low Stock",
+    "lastRestocked": "2026-08-10",
+    "supplierName": "Valley Farms Dairy"
+  },
+  {
+    "id": "INV-5003",
+    "name": "Vanilla Extract (Pure)",
+    "category": "Flavoring",
+    "quantity": 0,
+    "unit": "bottles",
+    "status": "Out of Stock",
+    "lastRestocked": "2026-07-20",
+    "supplierName": "Global Spices Inc."
+  },
+  {
+    "id": "INV-5004",
+    "name": "Packaging Cartons (Small)",
+    "category": "Packaging",
+    "quantity": 5000,
+    "unit": "units",
+    "status": "In Stock",
+    "lastRestocked": "2026-08-01",
+    "supplierName": "EcoPack Solutions"
+  }
+]

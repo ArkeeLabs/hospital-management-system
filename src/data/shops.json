@@ -1,0 +1,7 @@
+[
+  { "id": "shop-1", "name": "Fresh Dairy Co.", "category": "Dairy", "status": "Active", "assignee": "Sarah Mitchell", "date": "2026-08-10", "propertyId": "prop-1" },
+  { "id": "shop-2", "name": "PackRight Solutions", "category": "Packaging", "status": "Active", "assignee": "James Wong", "date": "2026-08-08", "propertyId": "prop-1" },
+  { "id": "shop-3", "name": "ColdChain Logistics", "category": "Logistics", "status": "Active", "assignee": "Maria Santos", "date": "2026-08-05", "propertyId": "prop-2" },
+  { "id": "shop-4", "name": "EquipPro Services", "category": "Equipment", "status": "Pending", "assignee": "Tom Bradley", "date": "2026-07-28", "propertyId": "prop-2" },
+  { "id": "shop-5", "name": "CleanTech Maintenance", "category": "Maintenance", "status": "Active", "assignee": "Lisa Park", "date": "2026-08-12", "propertyId": "prop-3" }
+]

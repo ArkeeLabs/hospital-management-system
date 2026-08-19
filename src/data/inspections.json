@@ -1,0 +1,42 @@
+[
+  {
+    "id": "INS-1001",
+    "propertyName": "Creamery Ops",
+    "inspectorName": "Sarah Jenkins",
+    "date": "2026-08-15",
+    "status": "Pass",
+    "score": 98,
+    "notes": "Excellent hygiene standards in main processing area.",
+    "category": "Health & Safety"
+  },
+  {
+    "id": "INS-1002",
+    "propertyName": "Downtown Cafe",
+    "inspectorName": "Mike Ross",
+    "date": "2026-08-14",
+    "status": "Fail",
+    "score": 65,
+    "notes": "Temperature logs missing for cold storage unit B.",
+    "category": "Equipment"
+  },
+  {
+    "id": "INS-1003",
+    "propertyName": "Eastside Bakery",
+    "inspectorName": "Elena Gilbert",
+    "date": "2026-08-16",
+    "status": "Pending",
+    "score": 0,
+    "notes": "Scheduled for afternoon shift.",
+    "category": "Operations"
+  },
+  {
+    "id": "INS-1004",
+    "propertyName": "Creamery Ops",
+    "inspectorName": "David Clark",
+    "date": "2026-08-10",
+    "status": "Pass",
+    "score": 92,
+    "notes": "Minor wear on packing belt, but within acceptable limits.",
+    "category": "Equipment"
+  }
+]

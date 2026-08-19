@@ -1,0 +1,5 @@
+[
+  { "id": "apol-1", "name": "Delivery Delay — Order #4521", "assignee": "Customer Service", "status": "Completed", "date": "2026-08-13", "notes": "15% discount issued", "propertyId": "prop-1" },
+  { "id": "apol-2", "name": "Product Quality Issue — Batch B-204", "assignee": "QA Team", "status": "Completed", "date": "2026-08-10", "notes": "Full replacement sent", "propertyId": "prop-1" },
+  { "id": "apol-3", "name": "Missed Appointment — Site Visit", "assignee": "Sales Team", "status": "Pending", "date": "2026-08-14", "notes": "Rescheduled for Aug 18", "propertyId": "prop-2" }
+]

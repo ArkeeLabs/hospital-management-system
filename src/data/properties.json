@@ -1,0 +1,43 @@
+[
+  {
+    "id": "prop-all",
+    "name": "All Properties & Offices",
+    "code": "GLOBAL",
+    "location": "Enterprise Multi-Site",
+    "totalEmployees": 148,
+    "activeTasks": 84,
+    "isPrimary": true
+  },
+  {
+    "id": "prop-1",
+    "name": "Apex Tower — Corporate HQ",
+    "code": "APEX-HQ",
+    "location": "Downtown Financial Center, Bay 4",
+    "totalEmployees": 52,
+    "activeTasks": 28
+  },
+  {
+    "id": "prop-2",
+    "name": "Horizon Plaza — Branch A",
+    "code": "HP-BRA",
+    "location": "North Innovation Park, Tech Hub",
+    "totalEmployees": 40,
+    "activeTasks": 24
+  },
+  {
+    "id": "prop-3",
+    "name": "Emerald Park — Logistics Facility",
+    "code": "EP-LOG",
+    "location": "Eastside Distribution Corridor",
+    "totalEmployees": 34,
+    "activeTasks": 20
+  },
+  {
+    "id": "prop-4",
+    "name": "Vanguard Center — Branch B",
+    "code": "VC-BRB",
+    "location": "South Industrial Plaza",
+    "totalEmployees": 22,
+    "activeTasks": 12
+  }
+]

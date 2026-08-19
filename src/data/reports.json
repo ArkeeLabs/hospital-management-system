@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rep-101",
+    "title": "Monthly Task Execution & Status Audit (Q3)",
+    "category": "ETMS Analytics",
+    "description": "Granular breakdown of task approval rates, overdue flags, average turnaround time, and employee score contributions.",
+    "lastGenerated": "2026-08-10 14:30",
+    "fileSize": "2.4 MB",
+    "format": "PDF",
+    "downloadsCount": 142
+  },
+  {
+    "id": "rep-102",
+    "title": "Property Compliance & Safety Matrix",
+    "category": "Compliance",
+    "description": "Multi-site facility safety audit scoring, OSHA compliance verifications, and equipment maintenance logs.",
+    "lastGenerated": "2026-08-08 09:15",
+    "fileSize": "1.8 MB",
+    "format": "XLSX",
+    "downloadsCount": 89
+  },
+  {
+    "id": "rep-103",
+    "title": "Employee Performance & Green Points Roster",
+    "category": "HR & Payroll",
+    "description": "Comprehensive performance indexes, attendance rates, green points earned, and quarter-end bonus calculations.",
+    "lastGenerated": "2026-08-11 18:00",
+    "fileSize": "3.1 MB",
+    "format": "CSV",
+    "downloadsCount": 215
+  },
+  {
+    "id": "rep-104",
+    "title": "Shift Attendance & Punctuality Summary",
+    "category": "Attendance",
+    "description": "Log of check-ins, check-outs, overtime hours worked, and leave balances across all branch locations.",
+    "lastGenerated": "2026-08-01 08:00",
+    "fileSize": "950 KB",
+    "format": "PDF",
+    "downloadsCount": 64
+  }
+]

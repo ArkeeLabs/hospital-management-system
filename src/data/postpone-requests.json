@@ -1,0 +1,5 @@
+[
+  { "id": "post-1", "name": "TSK-803 Quality Audit", "assignee": "Aaliyah Chen", "status": "Pending", "date": "2026-08-20", "notes": "Equipment calibration delay", "propertyId": "prop-1" },
+  { "id": "post-2", "name": "TSK-798 Inventory Count", "assignee": "Marcus Webb", "status": "Approved", "date": "2026-08-18", "notes": "Staff shortage approved", "propertyId": "prop-1" },
+  { "id": "post-3", "name": "TSK-791 Safety Training", "assignee": "Priya Sharma", "status": "Rejected", "date": "2026-08-15", "notes": "Mandatory deadline", "propertyId": "prop-2" }
+]

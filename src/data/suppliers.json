@@ -1,0 +1,42 @@
+[
+  {
+    "id": "SUP-001",
+    "name": "Valley Farms Dairy",
+    "category": "Raw Materials",
+    "contactPerson": "Robert Dairy",
+    "email": "orders@valleyfarms.com",
+    "phone": "(555) 123-4567",
+    "rating": 4.8,
+    "status": "Active"
+  },
+  {
+    "id": "SUP-002",
+    "name": "EcoPack Solutions",
+    "category": "Packaging",
+    "contactPerson": "Sarah Green",
+    "email": "sarah@ecopack.com",
+    "phone": "(555) 987-6543",
+    "rating": 4.5,
+    "status": "Active"
+  },
+  {
+    "id": "SUP-003",
+    "name": "Global Spices Inc.",
+    "category": "Ingredients",
+    "contactPerson": "Raj Patel",
+    "email": "contact@globalspices.com",
+    "phone": "(555) 246-8135",
+    "rating": 3.2,
+    "status": "Under Review"
+  },
+  {
+    "id": "SUP-004",
+    "name": "Cooling Tech Services",
+    "category": "Maintenance",
+    "contactPerson": "Jim Freezer",
+    "email": "support@coolingtech.com",
+    "phone": "(555) 369-1478",
+    "rating": 4.0,
+    "status": "Inactive"
+  }
+]

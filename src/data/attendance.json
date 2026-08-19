@@ -1,0 +1,102 @@
+[
+  {
+    "id": "att-1",
+    "employeeId": "emp-101",
+    "employeeName": "Sarah Jenkins",
+    "date": "2026-08-01",
+    "status": "Present",
+    "checkIn": "08:45 AM",
+    "checkOut": "05:15 PM",
+    "hoursWorked": 8.5
+  },
+  {
+    "id": "att-2",
+    "employeeId": "emp-101",
+    "employeeName": "Sarah Jenkins",
+    "date": "2026-08-02",
+    "status": "Present",
+    "checkIn": "08:50 AM",
+    "checkOut": "05:30 PM",
+    "hoursWorked": 8.6
+  },
+  {
+    "id": "att-3",
+    "employeeId": "emp-101",
+    "employeeName": "Sarah Jenkins",
+    "date": "2026-08-03",
+    "status": "Late",
+    "checkIn": "09:25 AM",
+    "checkOut": "05:45 PM",
+    "hoursWorked": 8.3
+  },
+  {
+    "id": "att-4",
+    "employeeId": "emp-102",
+    "employeeName": "Marcus Vance",
+    "date": "2026-08-01",
+    "status": "Present",
+    "checkIn": "08:30 AM",
+    "checkOut": "05:00 PM",
+    "hoursWorked": 8.5
+  },
+  {
+    "id": "att-5",
+    "employeeId": "emp-102",
+    "employeeName": "Marcus Vance",
+    "date": "2026-08-02",
+    "status": "Present",
+    "checkIn": "08:40 AM",
+    "checkOut": "05:10 PM",
+    "hoursWorked": 8.5
+  },
+  {
+    "id": "att-6",
+    "employeeId": "emp-102",
+    "employeeName": "Marcus Vance",
+    "date": "2026-08-03",
+    "status": "Absent",
+    "checkIn": null,
+    "checkOut": null,
+    "hoursWorked": 0
+  },
+  {
+    "id": "att-7",
+    "employeeId": "emp-103",
+    "employeeName": "Elena Rostova",
+    "date": "2026-08-01",
+    "status": "Present",
+    "checkIn": "08:15 AM",
+    "checkOut": "05:00 PM",
+    "hoursWorked": 8.75
+  },
+  {
+    "id": "att-8",
+    "employeeId": "emp-103",
+    "employeeName": "Elena Rostova",
+    "date": "2026-08-02",
+    "status": "Present",
+    "checkIn": "08:20 AM",
+    "checkOut": "05:05 PM",
+    "hoursWorked": 8.75
+  },
+  {
+    "id": "att-9",
+    "employeeId": "emp-103",
+    "employeeName": "Elena Rostova",
+    "date": "2026-08-03",
+    "status": "Present",
+    "checkIn": "08:10 AM",
+    "checkOut": "05:00 PM",
+    "hoursWorked": 8.83
+  },
+  {
+    "id": "att-10",
+    "employeeId": "emp-108",
+    "employeeName": "Carlos Gomez",
+    "date": "2026-08-01",
+    "status": "On Leave",
+    "checkIn": null,
+    "checkOut": null,
+    "hoursWorked": 0
+  }
+]
