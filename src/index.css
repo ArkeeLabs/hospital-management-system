@@ -1,48 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
 :root {
-  --primary:       #1C4532;   /* deep forest green */
-  --primary-light: #2D6A4F;   /* mid green */
-  --primary-hover: #153628;   /* dark hover */
-  --accent:        #B7862C;   /* warm gold */
-  --accent-soft:   #F5EDD6;   /* pale gold tint */
-  --bg-white:      #FFFFFF;
-  --bg-soft:       #F7F5F0;   /* warm linen — NOT cold blue */
-  --surface:       #EEF0EB;   /* warm sage surface */
-  --surface-hover: #E4E8DF;
-  --text-dark:     #111412;
-  --text-mid:      #3E4E40;
-  --text-light:    #728074;
-  --success:       #16885D;
-  --warning:       #C87B19;
-  --danger:        #C44949;
-  --border:        #D8D5CC;   /* warm gray border */
-  --cyan-ink:      #0C7C8C;
-  --violet-ink:    #594B92;
-  --success-ink:   #21795F;
-  --warning-ink:   #986C1F;
-  --primary-rgb:   28, 69, 50;
-  --surface-rgb:   238, 240, 235;
-  --success-rgb:   22, 136, 93;
-  --warning-rgb:   200, 123, 25;
-  --danger-rgb:    196, 73, 73;
-  --ink-rgb:       17, 20, 18;
-  --shadow-sm:     0 12px 28px rgba(17,20,18,.07);
-  --shadow-md:     0 22px 50px rgba(17,20,18,.11);
-  --radius-sm:     0px;
-  --radius-md:     0px;
-  --radius-lg:     0px;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
-  --font-mono:    'DM Mono', 'IBM Plex Mono', ui-monospace, monospace;
+  /* ── Primary blues ── */
+  --primary:        #0B3C72;   /* deep trust blue */
+  --primary-light:  #1A5499;   /* mid blue */
+  --primary-hover:  #082E58;   /* dark hover */
+  --primary-rgb:    11, 60, 114;
+
+  /* ── Accent: bright sky blue (replaces gold) ── */
+  --accent:         #1E7FD8;   /* sky blue accent */
+  --accent-soft:    #E8F3FC;   /* very pale blue tint */
+  --accent-rgb:     30, 127, 216;
+
+  /* ── Surfaces: clean blue-whites ── */
+  --bg-white:       #FFFFFF;
+  --bg-soft:        #F4F8FD;   /* barely-blue white */
+  --surface:        #E8F0FA;   /* light blue-grey */
+  --surface-hover:  #D8E6F7;
+
+  /* ── Text ── */
+  --text-dark:      #0A1628;   /* near-black with blue tint */
+  --text-mid:       #2D4A6E;   /* blue-tinted mid */
+  --text-light:     #5F7FA8;   /* muted blue-grey */
+
+  /* ── Semantic ── */
+  --success:        #0F766E;
+  --success-ink:    #0A5E57;
+  --success-rgb:    15, 118, 110;
+  --warning:        #B45309;
+  --warning-ink:    #92400E;
+  --warning-rgb:    180, 83, 9;
+  --danger:         #B91C1C;
+  --danger-rgb:     185, 28, 28;
+
+  /* ── Border ── */
+  --border:         #C8D8EE;   /* cool blue border */
+
+  /* ── Tonal ── */
+  --cyan-ink:       #0369A1;
+  --violet-ink:     #5B21B6;
+  --success-ink:    #064E3B;
+  --warning-ink:    #78350F;
+
+  /* ── RGB refs ── */
+  --surface-rgb:    232, 240, 250;
+  --ink-rgb:        10, 22, 40;
+
+  /* ── Shadows ── */
+  --shadow-sm:      0 2px 12px rgba(11,60,114,.08);
+  --shadow-md:      0 8px 28px rgba(11,60,114,.12);
+  --shadow-lg:      0 18px 48px rgba(11,60,114,.16);
+
+  /* ── Radius ── */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      16px;
+
+  /* ── Fonts ── */
+  --font-display:   'Noto Serif', Georgia, serif;
+  --font-body:      'Inter', system-ui, sans-serif;
+  --font-mono:      ui-monospace, 'IBM Plex Mono', monospace;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; background: var(--bg-soft); color: var(--text-dark); font-family: var(--font-body); font-weight: 400; -webkit-font-smoothing: antialiased; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg-soft);
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
 body, input, select, textarea { font-family: var(--font-body); }
 h1, h2, h3, h4, p { margin: 0; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; }
 h4, h5, h6, label, button, nav a, .eyebrow { font-family: var(--font-body); }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; }
@@ -51,9 +85,14 @@ button { border: 0; cursor: pointer; }
 button:disabled { cursor: not-allowed; }
 img, svg { display: block; }
 ::selection { background: rgba(var(--primary-rgb), .18); }
-:focus-visible { outline: 3px solid var(--primary-light); outline-offset: 3px; }
+:focus-visible { outline: 3px solid rgba(var(--primary-rgb), .4); outline-offset: 3px; }
 code, .mono { font-family: var(--font-mono); }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

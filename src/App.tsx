@@ -51,6 +51,59 @@ function useReveal(path = '') { const location = useLocation(); useEffect(() => 
 function useScrollAtmosphere() { useEffect(() => { let frame = 0; const update = () => { frame = 0; const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1); document.documentElement.style.setProperty('--aruna-scroll-progress', String(Math.min(window.scrollY / max, 1))); }; const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); }; update(); window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (frame) cancelAnimationFrame(frame); document.documentElement.style.removeProperty('--aruna-scroll-progress'); }; }, []); }
 
 function AnimatedNumber({ value, suffix = '' }: { value: number; suffix?: string }) { const [display, setDisplay] = useState(0); const ref = useRef<HTMLSpanElement>(null); useEffect(() => { const node = ref.current; if (!node) return undefined; let frame = 0; const observer = new IntersectionObserver(([entry]) => { if (!entry.isIntersecting) return; const start = performance.now(); const tick = (now: number) => { const progress = Math.min((now - start) / 900, 1); setDisplay(Math.round(value * (1 - Math.pow(1 - progress, 3)))); if (progress < 1) frame = requestAnimationFrame(tick); }; frame = requestAnimationFrame(tick); observer.disconnect(); }, { threshold: 0.6 }); observer.observe(node); return () => { observer.disconnect(); cancelAnimationFrame(frame); }; }, [value]); return <span ref={ref}>{display.toLocaleString()}{suffix}</span>; }
+
+/* #8 — FAQ Accordion (CSS grid-template-rows trick, no JS height calc) */
+function FaqAccordion() {
+  const faqs = [
+    { q: 'How do I book an appointment?', a: 'Use the "Book an appointment" button above, choose your doctor and time slot, fill in your details — done. You\'ll receive a booking ID to track your queue.' },
+    { q: 'Do I need to pay before my visit?', a: 'No upfront payment is required online. Consultation fees are collected at the clinic before your appointment.' },
+    { q: 'What are your opening hours?', a: 'Aruna Healthcare is open Monday through Saturday, 8:00 AM to 8:00 PM. We are closed on Sundays and public holidays.' },
+    { q: 'Can I reschedule or cancel my appointment?', a: 'Yes — call us on +91 824 222 2202 at least 2 hours before your slot and we\'ll rebook you at the next available time.' },
+    { q: 'Do you accept walk-ins?', a: 'We do accept walk-ins subject to doctor availability. Booking in advance is recommended to avoid wait times.' },
+  ];
+  return (
+    <section className="section section-soft" aria-label="Frequently asked questions">
+      <div className="wrap">
+        <div className="section-heading reveal"><div><span className="eyebrow">Got questions?</span><h2>Answers to common queries</h2></div></div>
+        <div style={{maxWidth:'720px'}}>
+          {faqs.map((faq) => (
+            <details key={faq.q} className="accordion reveal">
+              <summary className="accordion-trigger">{faq.q}<ChevronRight size={16} /></summary>
+              <div className="accordion-body"><div className="accordion-inner">{faq.a}</div></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* #10 — Trust signals bar */
+function TrustBar() {
+  return (
+    <div className="wrap">
+      <div className="trust-bar" role="list" aria-label="Clinic credentials">
+        <span className="trust-bar-item" role="listitem"><ShieldCheck size={15} /><span>Est. <strong>2012</strong></span></span>
+        <span className="trust-bar-divider" aria-hidden="true" />
+        <span className="trust-bar-item" role="listitem"><Users size={15} /><span><strong>18,000+</strong> patients treated</span></span>
+        <span className="trust-bar-divider" aria-hidden="true" />
+        <span className="trust-bar-item" role="listitem"><Stethoscope size={15} /><span><strong>12</strong> specialist doctors</span></span>
+        <span className="trust-bar-divider" aria-hidden="true" />
+        <span className="trust-bar-item" role="listitem"><CheckCircle2 size={15} /><span><strong>4.8 ★</strong> patient rating</span></span>
+      </div>
+    </div>
+  );
+}
+
+/* #13 — Mobile sticky bottom bar */
+function MobileBottomBar() {
+  return (
+    <div className="mobile-bottom-bar" role="navigation" aria-label="Quick actions">
+      <a href="#booking" className="mbb-primary"><CalendarDays size={17} /> Book appointment</a>
+      <a href="tel:+918242222202" className="mbb-secondary"><Phone size={17} /> Call now</a>
+    </div>
+  );
+}
 function ArunaMark({ size = 22 }: { size?: number }) { return <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 16C5 9.9 9.9 5 16 5s11 4.9 11 11-4.9 11-11 11S5 22.1 5 16Z" stroke="currentColor" strokeWidth="2.4" /><path d="M8.5 16h4l2.1-4.3 3.1 8.6 2.1-4.3h3.7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>; }
 function BrandMark({ compact = false }: { compact?: boolean }) { return <Link to="/" className={`brand-mark ${compact ? 'brand-mark-compact' : ''}`} aria-label="Aruna Healthcare home"><span className="brand-mark-icon"><ArunaMark size={compact ? 18 : 21} /></span>{!compact && <span><strong>Aruna</strong><small>Healthcare</small></span>}</Link>; }
 function StatusBadge({ status }: { status: string }) { const normalized = status.toLowerCase().replace(/[^a-z]/g, ''); return <span className={`status-badge status-${normalized}`}><CircleDot size={10} />{status}</span>; }
@@ -75,16 +128,43 @@ function ApolloPublicSite() {
   ];
   const active = care[activeCare];
   const availableMedicines = pharmacy.filter((item) => item.stock > 0).length;
+  // #15 — JSON-LD structured data for SEO
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'aruna-jsonld';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'MedicalOrganization',
+      name: 'Aruna Healthcare',
+      url: 'https://arunahealthcare.in',
+      telephone: '+918242222202',
+      address: { '@type': 'PostalAddress', streetAddress: 'Sadhana Sahakari Soudha', addressLocality: 'Vamanjoor', addressRegion: 'Karnataka', postalCode: '575028', addressCountry: 'IN' },
+      openingHours: 'Mo-Sa 08:00-20:00',
+      medicalSpecialty: ['GeneralPractice', 'Pediatrics', 'Cardiology', 'Orthopedic', 'Dermatology'],
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', reviewCount: '312' },
+    });
+    if (!document.getElementById('aruna-jsonld')) document.head.appendChild(script);
+    return () => { document.getElementById('aruna-jsonld')?.remove(); };
+  }, []);
+
   return <div className="public-site apollo-aligned">
+    {/* #9 — skip to main content */}
+    <a href="#main-content" className="skip-to-content">Skip to main content</a>
     <PublicHeader />
-    <main>
+    <TrustBar />
+    <main id="main-content">
       <section id="home" className="apollo-hero">
         <div className="wrap apollo-hero-grid">
           <div className="apollo-hero-copy hero-load">
             <span className="eyebrow"><span className="eyebrow-dot" /> Integrated clinical care in Mangaluru</span>
             <h1>Care that keeps <span>you moving forward.</span></h1>
             <p>From your first appointment to follow-up care, Aruna brings clinicians, records and pharmacy support into one clear journey.</p>
-            <div className="hero-actions"><a className="button button-primary" href="#booking">Book an appointment <ArrowRight size={17} /></a><a className="button button-quiet" href="#services">Explore care <ArrowDown size={16} /></a></div>
+            <div className="hero-actions">
+              {/* #3 — CTA pulse draws the eye without alarming */}
+              <a className="button button-primary cta-pulse" href="#booking">Book an appointment <ArrowRight size={17} /></a>
+              <a className="button button-quiet" href="#services">Explore care <ArrowDown size={16} /></a>
+            </div>
             <div className="apollo-hero-trust"><span><Check size={15} /> Secure patient records</span><span><Check size={15} /> Specialist-led care</span><span><Check size={15} /> Same-day support</span></div>
           </div>
           <div className="apollo-hero-media">
@@ -108,13 +188,84 @@ function ApolloPublicSite() {
       <section id="doctors" className="section"><div className="wrap"><SectionHeading eyebrow="Meet our doctors" title="Experienced clinicians who listen first." copy="A focused team with the time and context to guide the next right step." /><div className="doctor-grid reveal stagger-grid">{doctors.map((doctor) => <article className="doctor-card" key={doctor.id}><div className={`doctor-avatar avatar-${doctor.tint}`}>{doctor.initials}</div><div className="doctor-meta"><span className={doctor.available ? 'availability available' : 'availability'}><CircleDot size={11} /> {doctor.available ? 'Available today' : 'Next: Thu'}</span><h3>{doctor.name}</h3><p>{doctor.specialization}</p><span className="doctor-department">{doctor.department} <span>•</span> ₹{doctor.fee}</span></div><a className="button button-secondary button-full" href="#booking">Book consultation <ArrowRight size={15} /></a></article>)}</div></div></section>
       <BookingSection />
       <section className="queue-section"><div className="wrap queue-grid"><div><SectionHeading eyebrow="Track your visit" title="Your appointment, in view." copy="Use your booking ID or phone number for your live queue update." /><div className="queue-trust"><span><ShieldCheck size={16} /> Private by design</span><span><Activity size={16} /> Live clinic updates</span></div></div><QueueTracker /></div></section>
-      <section id="about" className="section about-section"><div className="wrap about-grid reveal"><div className="reveal-left"><SectionHeading eyebrow="Visit Aruna" title="Clinical care, close to home." copy="Sadhana Sahakari Soudha, Vamanjoor. Monday through Saturday, 8:00 AM to 8:00 PM." /><div className="address-block"><MapPin size={20} /><div><strong>Sadhana Sahakari Soudha</strong><span>Vamanjoor, Mangaluru — 575028</span></div></div><div className="contact-row"><a href="tel:+918242222202"><Phone size={16} /> +91 824 222 2202</a><a href="https://wa.me/918242222202" target="_blank" rel="noreferrer"><MessageCircle size={16} /> WhatsApp</a></div></div><div className="about-card reveal-right"><div className="about-card-top"><span className="eyebrow">Care availability</span><span className="mini-pill"><CircleDot size={10} /> Open today</span></div><div className="hours-row"><span>Consultations</span><strong>8:00 AM — 8:00 PM</strong></div><div className="hours-row"><span>Pharmacy support</span><strong>{availableMedicines} items in stock</strong></div><div className="map-illustration"><div className="map-road road-one" /><div className="map-road road-two" /><div className="map-pin"><MapPin size={24} /></div><span className="map-label">Aruna Healthcare</span></div></div></div></section>
+      <FaqAccordion />
+      <section id="about" className="section about-section"><div className="wrap about-grid reveal"><div className="reveal-left"><SectionHeading eyebrow="Visit Aruna" title="Clinical care, close to home." copy="Sadhana Sahakari Soudha, Vamanjoor. Monday through Saturday, 8:00 AM to 8:00 PM." /><div className="address-block"><MapPin size={20} aria-hidden="true" /><div><strong>Sadhana Sahakari Soudha</strong><span>Vamanjoor, Mangaluru — 575028</span></div></div><div className="contact-row"><a href="tel:+918242222202" aria-label="Call Aruna Healthcare"><Phone size={16} aria-hidden="true" /> +91 824 222 2202</a><a href="https://wa.me/918242222202" target="_blank" rel="noreferrer" aria-label="WhatsApp Aruna Healthcare"><MessageCircle size={16} aria-hidden="true" /> WhatsApp</a></div></div><div className="about-card reveal-right"><div className="about-card-top"><span className="eyebrow">Care availability</span><span className="mini-pill"><CircleDot size={10} aria-hidden="true" /> Open today</span></div><div className="hours-row"><span>Consultations</span><strong>8:00 AM — 8:00 PM</strong></div><div className="hours-row"><span>Pharmacy support</span><strong>{availableMedicines} items in stock</strong></div><div className="map-embed-wrapper"><iframe title="Aruna Healthcare location — Vamanjoor, Mangaluru" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d74.8900!3d12.8800!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35b37f2e5bba3%3A0xb5cf4fe634cd7d44!2sVamanjoor%2C%20Mangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1693000000000!5m2!1sen!2sin" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div></div></section>
     </main>
-    <footer className="public-footer reveal"><div className="wrap footer-grid"><BrandMark /><p>Clear care. Close to home. Built for Vamanjoor.</p><div className="footer-actions"><Link to="/admin">Admin portal <ArrowUpRight size={14} /></Link><span>© 2026 Aruna Healthcare</span></div></div></footer>
-  </div>;
+    <footer className="public-footer reveal"><div className="wrap"><div className="footer-grid"><div><BrandMark /><p className="footer-tagline">Compassionate specialist care for every family in Vamanjoor, Mangaluru.</p><div className="footer-links"><a href="#home">Home</a><a href="#services">Our services</a><a href="#doctors">Doctors</a><a href="#booking">Appointments</a><a href="#about">Find us</a></div></div><div><span className="eyebrow" style={{color:'rgba(255,255,255,.45)'}}>Admin access</span><div style={{marginTop:'12px'}}><Link to="/admin" style={{display:'inline-flex',alignItems:'center',gap:'5px',color:'rgba(255,255,255,.78)',fontSize:'.75rem',fontWeight:600}}>Admin portal <ArrowUpRight size={14} /></Link></div></div></div><div className="footer-bottom"><span>© 2026 Aruna Healthcare · Sadhana Sahakari Soudha, Vamanjoor, Mangaluru — 575028</span><span>Mon–Sat · 8 AM–8 PM · +91 824 222 2202</span></div></div></footer>
+    {/* #13 — mobilfunction BookingSection() {
+  const { doctors, addAppointment } = useHospital();
+  const [step, setStep] = useState(1);
+  const [result, setResult] = useState('');
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [form, setForm] = useState({ doctorId: doctors[0].id, department: doctors[0].department, date: '19 Aug 2026', time: '10:30', name: '', phone: '', age: '', reason: '' });
+  const selectedDoctor = doctors.find((d) => d.id === form.doctorId) ?? doctors[0];
+  const update = (key: keyof typeof form, value: string) => setForm((c) => ({ ...c, [key]: value }));
+  const touch = (key: string) => setTouched((t) => ({ ...t, [key]: true }));
+  const nameOk = form.name.trim().length > 1;
+  const phoneOk = /^[6-9]\d{9}$/.test(form.phone.replace(/\s/g, ''));
+  const fieldCls = (key: string, ok: boolean) => touched[key] ? (ok ? 'field-valid' : 'field-error') : '';
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    touch('name'); touch('phone');
+    if (!nameOk || !phoneOk) return;
+    const id = addAppointment({ doctorId: selectedDoctor.id, doctorName: selectedDoctor.name, patientName: form.name, phone: form.phone, date: form.date, time: form.time, reason: form.reason || 'General consultation' });
+    setResult(id);
+  };
+  return (
+    <section id="booking" className="section booking-section">
+      <div className="wrap booking-layout">
+        <div>
+          <SectionHeading eyebrow="Book your visit" title="Make time for your health." copy="Choose a doctor, pick a slot, and we'll take care of the rest." />
+          <div className="stepper">
+            <div className={step >= 1 ? 'step active' : 'step'}><span>1</span><small>Doctor</small></div><i />
+            <div className={step >= 2 ? 'step active' : 'step'}><span>2</span><small>Time</small></div><i />
+            <div className={step >= 3 ? 'step active' : 'step'}><span>3</span><small>Details</small></div>
+          </div>
+        </div>
+        <div className="booking-form-card">
+          <div className="form-card-top"><span className="eyebrow">Appointment request</span><span className="form-step-label">Step {step} of 3</span></div>
+          {result ? (
+            <div className="booking-success booking-success-large">
+              <CheckCircle2 size={36} /><span className="eyebrow">You're on the list</span>
+              <h3>Appointment requested.</h3><p>Keep this booking ID handy when you arrive.</p>
+              <code>{result}</code>
+              <button className="button button-secondary" onClick={() => { setResult(''); setStep(1); setTouched({}); }}>Book another visit</button>
+            </div>
+          ) : (
+            <form onSubmit={submit} noValidate>
+              {step === 1 && <div className="form-step">
+                <label>Choose doctor<select value={form.doctorId} onChange={(e) => { update('doctorId', e.target.value); update('department', doctors.find((d) => d.id === e.target.value)?.department ?? ''); }}>{doctors.map((d) => <option key={d.id} value={d.id}>{d.name} — {d.specialization}</option>)}</select></label>
+                <label>Department<input value={form.department} readOnly aria-readonly="true" /></label>
+                <button className="button button-primary" type="button" onClick={() => setStep(2)}>Continue to time <ArrowRight size={16} /></button>
+              </div>}
+              {step === 2 && <div className="form-step">
+                <div className="form-grid">
+                  <label>Date<input value={form.date} onChange={(e) => update('date', e.target.value)} /></label>
+                  <label>Time slot<select value={form.time} onChange={(e) => update('time', e.target.value)}>{['09:30','10:30','11:30','15:00','16:00'].map((t) => <option key={t}>{t}</option>)}</select></label>
+                </div>
+                <div className="slot-grid">{['09:30','10:30','11:30','15:00','16:00'].map((t) => <button className={form.time === t ? 'slot selected' : 'slot'} type="button" key={t} onClick={() => update('time', t)} aria-pressed={form.time === t}>{t}</button>)}</div>
+                <div className="form-actions"><button className="button button-quiet" type="button" onClick={() => setStep(1)}><ChevronLeft size={15} /> Back</button><button className="button button-primary" type="button" onClick={() => setStep(3)}>Continue to details <ArrowRight size={16} /></button></div>
+              </div>}
+              {step === 3 && <div className="form-step">
+                <div className="form-grid">
+                  {/* #7 — field-error shake + field-valid checkmark */}
+                  <label className={fieldCls('name', nameOk)}>Full name<input value={form.name} onChange={(e) => update('name', e.target.value)} onBlur={() => touch('name')} required aria-required="true" aria-invalid={touched.name && !nameOk} /><span className="field-msg">Please enter your full name</span></label>
+                  <label className={fieldCls('phone', phoneOk)}>Phone number<input value={form.phone} onChange={(e) => update('phone', e.target.value)} onBlur={() => touch('phone')} required inputMode="tel" aria-required="true" aria-invalid={touched.phone && !phoneOk} /><span className="field-msg">Enter a valid 10-digit mobile number</span></label>
+                </div>
+                <div className="form-grid">
+                  <label>Age<input value={form.age} onChange={(e) => update('age', e.target.value)} inputMode="numeric" /></label>
+                  <label>Reason for visit<input value={form.reason} onChange={(e) => update('reason', e.target.value)} placeholder="e.g. fever, review" /></label>
+                </div>
+                <div className="form-actions"><button className="button button-quiet" type="button" onClick={() => setStep(2)}><ChevronLeft size={15} /> Back</button><button className="button button-primary" type="submit">Request appointment <Check size={16} /></button></div>
+              </div>}
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function BookingSection() { const { doctors, addAppointment } = useHospital(); const [step, setStep] = useState(1); const [result, setResult] = useState(''); const [form, setForm] = useState({ doctorId: doctors[0].id, department: doctors[0].department, date: '19 Aug 2026', time: '10:30', name: '', phone: '', age: '', reason: '' }); const selectedDoctor = doctors.find((doctor) => doctor.id === form.doctorId) ?? doctors[0]; const update = (key: keyof typeof form, value: string) => setForm((current) => ({ ...current, [key]: value })); const submit = (event: FormEvent) => { event.preventDefault(); const id = addAppointment({ doctorId: selectedDoctor.id, doctorName: selectedDoctor.name, patientName: form.name, phone: form.phone, date: form.date, time: form.time, reason: form.reason || 'General consultation' }); setResult(id); }; return <section id="booking" className="section booking-section"><div className="wrap booking-layout"><div><SectionHeading eyebrow="Book your visit" title="Make time for your health." copy="Choose a doctor, pick a slot, and we’ll take care of the rest." /><div className="stepper"><div className={step >= 1 ? 'step active' : 'step'}><span>1</span><small>Doctor</small></div><i /><div className={step >= 2 ? 'step active' : 'step'}><span>2</span><small>Time</small></div><i /><div className={step >= 3 ? 'step active' : 'step'}><span>3</span><small>Details</small></div></div></div><div className="booking-form-card"><div className="form-card-top"><span className="eyebrow">Appointment request</span><span className="form-step-label">Step {step} of 3</span></div>{result ? <div className="booking-success booking-success-large"><CheckCircle2 size={36} /><span className="eyebrow">You're on the list</span><h3>Appointment requested.</h3><p>Keep this booking ID handy when you arrive.</p><code>{result}</code><button className="button button-secondary" onClick={() => { setResult(''); setStep(1); }}>Book another visit</button></div> : <form onSubmit={submit}>{step === 1 && <div className="form-step"><label>Choose doctor<select value={form.doctorId} onChange={(event) => { update('doctorId', event.target.value); update('department', doctors.find((doctor) => doctor.id === event.target.value)?.department ?? ''); }}>{doctors.map((doctor) => <option key={doctor.id} value={doctor.id}>{doctor.name} — {doctor.specialization}</option>)}</select></label><label>Department<input value={form.department} readOnly /></label><button className="button button-primary" type="button" onClick={() => setStep(2)}>Continue to time <ArrowRight size={16} /></button></div>}{step === 2 && <div className="form-step"><div className="form-grid"><label>Date<input value={form.date} onChange={(event) => update('date', event.target.value)} /></label><label>Time slot<select value={form.time} onChange={(event) => update('time', event.target.value)}>{['09:30', '10:30', '11:30', '15:00', '16:00'].map((time) => <option key={time}>{time}</option>)}</select></label></div><div className="slot-grid">{['09:30', '10:30', '11:30', '15:00', '16:00'].map((time) => <button className={form.time === time ? 'slot selected' : 'slot'} type="button" key={time} onClick={() => update('time', time)}>{time}</button>)}</div><div className="form-actions"><button className="button button-quiet" type="button" onClick={() => setStep(1)}><ChevronLeft size={15} /> Back</button><button className="button button-primary" type="button" onClick={() => setStep(3)}>Continue to details <ArrowRight size={16} /></button></div></div>}{step === 3 && <div className="form-step"><div className="form-grid"><label>Full name<input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label><label>Phone number<input value={form.phone} onChange={(event) => update('phone', event.target.value)} required /></label></div><div className="form-grid"><label>Age<input value={form.age} onChange={(event) => update('age', event.target.value)} inputMode="numeric" /></label><label>Reason for visit<input value={form.reason} onChange={(event) => update('reason', event.target.value)} placeholder="e.g. fever, review" /></label></div><div className="form-actions"><button className="button button-quiet" type="button" onClick={() => setStep(2)}><ChevronLeft size={15} /> Back</button><button className="button button-primary" type="submit">Request appointment <Check size={16} /></button></div></div>}</form>}</div></div></section>; }
 
 function QueueTracker() { const { appointments, queues } = useHospital(); const [query, setQuery] = useState('APT-260819-01'); const [result, setResult] = useState<Appointment | undefined>(appointments[0]); const find = (event: FormEvent) => { event.preventDefault(); const found = appointments.find((appointment) => appointment.id.toLowerCase() === query.toLowerCase() || appointment.phone.replace(/\s/g, '') === query.replace(/\s/g, '')); setResult(found); }; const queue = result ? queues.find((item) => item.doctorId === result.doctorId) : undefined; const current = queue?.currentToken ?? 5; return <div className="queue-card reveal"><form className="queue-search" onSubmit={find}><label htmlFor="queue-query">Booking ID or phone</label><div><Search size={17} /><input id="queue-query" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="APT-260819-01" /><button className="button button-primary" type="submit">Check</button></div></form>{result && queue ? <div className="queue-result"><div className="queue-result-top"><span className="eyebrow">Live queue</span><StatusBadge status={result.status} /></div><div className="queue-number"><span>Your token</span><strong>{result.token.toString().padStart(2, '0')}</strong><small>Current: token {current.toString().padStart(2, '0')}</small></div><div className="queue-details"><span><Stethoscope size={15} /> {result.doctorName}</span><span><Clock3 size={15} /> {result.token <= current ? 'You are being seen now' : `${Math.max((result.token - current) * 12, 12)} min estimated wait`}</span></div></div> : <div className="empty-state"><Search size={20} /><strong>No appointment found</strong><span>Try the booking ID or phone number used at booking.</span></div>}</div>; }
 
